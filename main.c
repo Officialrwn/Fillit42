@@ -22,6 +22,7 @@ static int	ft_check_file_input(int fd, char *line)
 	int	count;
 	int check;
 	int	i;
+	int numarr[26][4];
 
 	n = 4;
 	count = 0;
@@ -29,18 +30,18 @@ static int	ft_check_file_input(int fd, char *line)
 	while (n--)
 	{
 		ft_get_next_line(fd, &line);
-		//put into seperate function returns 1 or 0
 		if (line == NULL || &line[4] != ft_strchr(line, '\0'))
 			check = -1;
 		i = 4;
 		while (i-- && check >= 0)
 		{
 			if (line[i] == '#')
+			{
 				count++;
+			}
 			else if (line[i] != '.')
 				check = -1;
 		}
-		//add another check function to check tetriminos pattern
 		ft_strdel(&line);
 	}
 	check = ft_get_next_line(fd, &line);

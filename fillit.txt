@@ -3,6 +3,13 @@ and counts how many tetriminos.
 
 need to check if tetriminos pattern is valid.
 
-malloc char ***matrix[tetriminos_count][4][5];
-
+malloc char ***matrix[tetriminos_count][4][5]; ?
 maybe just declare a 3d matrix that can hold 26 tetriminos?
+or 2d int array store indices?
+
+int arr[26][4];
+
+1. Read first line > if line[i] != # > Read nextline
+2. if strchr '#' then arr[0][0] = i;
+3. Read second line
+4. if line[i] = '#' || line[i - 1] 
