@@ -1,0 +1,8 @@
+checks if tetriminos has 4x # and 12x .
+and counts how many tetriminos.
+
+need to check if tetriminos pattern is valid.
+
+malloc char ***matrix[tetriminos_count][4][5];
+
+maybe just declare a 3d matrix that can hold 26 tetriminos?

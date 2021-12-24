@@ -2,3 +2,4 @@ a.exe
 libft.a
 *.o
 a.out
+a.out.dSYM
