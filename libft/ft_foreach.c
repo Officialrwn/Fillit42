@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   ft_foreach.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leotran <leotran@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/05 15:13:31 by leotran           #+#    #+#             */
-/*   Updated: 2021/11/16 14:17:11 by leotran          ###   ########.fr       */
+/*   Created: 2021/12/25 12:16:30 by marvin            #+#    #+#             */
+/*   Updated: 2021/12/25 12:16:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl(char const *s)
+void	ft_foreach(int *tab, int length, void(*f)(int))
 {
-	if (s == NULL)
-		write(1, "\n", 1);
-	else
+	int	i;
+
+	i = 0;
+	while (i < length)
 	{
-		ft_putstr(s);
-		ft_putchar('\n');	
+		(*f)(tab[i++]);
 	}
 }

@@ -118,5 +118,6 @@ void	ft_dlstaddfront(t_dlist **alst, t_dlist *new);
 int		ft_countstrings(const char *s, char c);
 char	*ft_strccpy(char *src, int c);
 int		ft_get_next_line(const int fd, char **line);
+void	ft_foreach(int *tab, int length, void(*f)(int));
 
 #endif

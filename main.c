@@ -16,57 +16,79 @@
 #include <stdio.h>
 #include "libft/libft.h"
 
-static int	ft_check_file_input(int fd, char *line)
+static int	ft_check_file_input(char *arr, int fd, char *line)
 {
 	int	n;
 	int	count;
 	int check;
 	int	i;
-	int numarr[26][4];
 
-	n = 4;
+	n = 0;
 	count = 0;
 	check = 0;
-	while (n--)
+	while (n++ < 4) // Read first tetriminos
 	{
 		ft_get_next_line(fd, &line);
 		if (line == NULL || &line[4] != ft_strchr(line, '\0'))
-			check = -1;
-		i = 4;
-		while (i-- && check >= 0)
+			count = -1;
+		i = 0;
+		while (i < 4 && count >= 0) // Check tetriminoes has only '.' || '#'
 		{
-			if (line[i] == '#')
+			if (line[i] != '#' && line[i] != '.')
 			{
-				count++;
+				count = -1;
+				break ;
 			}
-			else if (line[i] != '.')
-				check = -1;
+			else
+				printf("%c", line[i]); //arr[x][y] = line[i];
+			i++;
 		}
+		printf("$\n"); // line[i] = '\0' (i is now 4);
 		ft_strdel(&line);
 	}
-	check = ft_get_next_line(fd, &line);
-	if (count != 4)
-		check = -1;
-	return (check);
+	if (count == -1)
+		return (-1);
+	ft_putendl(NULL); // remove
+	return (ft_get_next_line(fd, &line));
+}
+
+static int ft_check_tetrminos(int *numarr)
+{
+	
 }
 
 static int	count_tetriminos(int fd)
 {
 	char	*line;
-	int		i;
+	int		i, y;
+	int		x = 0;
 	int		check;
+	char	arr[26][4];
 
 	i = 1;
 	check = 1;
 	while (i > 0)
 	{
-		i = ft_check_file_input(fd, line);
+		i = ft_check_file_input(arr[x], fd, line);
 		if (i == -1)
 			check = -1;
 		else if (i == 1)
+		{
+			x++;
 			check++;
+		}	
 	}
-	printf("final check = %d\n", check);
+	/*x = 0;
+	while (x < 19)
+	{
+		if (numarr[x][0] != 0)
+		{
+			ft_foreach(numarr[x], 4, &ft_putnbr);
+			ft_putendl(NULL);
+		}
+		x++;
+	}*/
+	//printf("final check = %d\n", check);
 	return (check);
 }
 
