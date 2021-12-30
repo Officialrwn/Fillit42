@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 22:47:40 by marvin            #+#    #+#             */
-/*   Updated: 2021/12/30 04:42:52 by leo              ###   ########.fr       */
+/*   Updated: 2021/12/30 05:04:20 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ static int	get_tetrimino(int fd) // return t_list *
 		{
 			count++;
 			i = ft_get_next_line(fd, &line);
+			ft_strdel(&line);
 			print_arr(temp); //t_list *head = ft_lstnew(temp, 17);
 		}
 		else
@@ -130,7 +131,7 @@ int	main(int argc, char **argv)
 
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
-	if (argc != 2)
+	if (argc != 1)
 		return (0);
 	else
 	{
