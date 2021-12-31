@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 22:47:40 by marvin            #+#    #+#             */
-/*   Updated: 2021/12/30 05:04:20 by leo              ###   ########.fr       */
+/*   Updated: 2021/12/31 02:29:52 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,29 +54,29 @@ static int	check_tetrimino_format(int fd, char *temp, char *line)
 	return (check);
 }
 
-static int	count_blocks(char *temp, int i)
+static int	count_blocks(char *temp, int i, char c)
 {
 	int		count;
-	char	c;
+	char	block;
 
 	count = 0;
-	c = temp[i];
+	block = '#';
 	if (i != 0 && i != 4 && i != 8 && i != 12)
-		if (temp[i - 1] == c)
+		if (temp[i - 1] == c || temp[i - 1] == block)
 			count++;
 	if (i != 3 && i != 7 && i != 11 && i != 15)
-		if (temp[i + 1] == c)
+		if (temp[i + 1] == c || temp[i + 1] == block)
 			count++;
 	if (i != 0 && i != 1 && i != 2 && i != 3)
-		if (temp[i - 4] == c)
+		if (temp[i - 4] == c || temp[i - 4] == block)
 			count++;
 	if (i != 12 && i != 13 && i != 14 && i != 15)
-		if (temp[i + 4] == c)
+		if (temp[i + 4] == c || temp[i + 4] == block)
 			count++;
 	return (count);
 }
 
-static int	check_valid_tetrimino_piece(char *temp)
+static int	check_valid_tetrimino_piece(char *temp, char c)
 {
 	int	check;
 	int	count;
@@ -89,7 +89,8 @@ static int	check_valid_tetrimino_piece(char *temp)
 	{
 		if (temp[i] == '#')
 		{
-			check = check + count_blocks(temp, i);
+			temp[i] = c;
+			check = check + count_blocks(temp, i, c);
 			count++;
 		}
 		i++;
@@ -105,15 +106,18 @@ static int	get_tetrimino(int fd) // return t_list *
 	char	*line;
 	int		i;
 	int		count;
+	char	c;
 
 	i = 1;
 	count = 0;
+	c = 'A';
 	while (i > 0 && count >= 0)
 	{
 		if (check_tetrimino_format(fd, temp, line) == 1
-			&& check_valid_tetrimino_piece(temp) > 0)
+			&& check_valid_tetrimino_piece(temp, c) > 0)
 		{
 			count++;
+			c++;
 			i = ft_get_next_line(fd, &line);
 			ft_strdel(&line);
 			print_arr(temp); //t_list *head = ft_lstnew(temp, 17);
@@ -131,7 +135,7 @@ int	main(int argc, char **argv)
 
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
-	if (argc != 1)
+	if (argc != 2)
 		return (0);
 	else
 	{

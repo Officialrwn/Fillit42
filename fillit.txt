@@ -28,3 +28,20 @@ Print only max filled x and y indeces.
 2 . . . #
 3 . . . .
 4 \ \ \ \
+
+
+A A . . B H
+A A B B B H
+C C D D H H
+C . D D F F
+C E E G G F
+E E . G G F
+
+A A . . B
+A A B B B
+C C D D . 
+C . D D .
+C E E F F
+E E . H F
+G G . H F
+G G H H .
