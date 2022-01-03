@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   testmain.c                                         :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 22:47:40 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/03 16:05:53 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/03 19:36:28 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,48 @@ static int	check_valid_tetrimino_piece(int **temp)
 	return (block_count);
 }
 
+static int store_tetrmino(int **temp)
+{
+	int	*numarr;
+	int	arr[8];
+	int	y;
+	int	x;
+	int	i;
+
+	numarr = (int *)malloc(sizeof(numarr) * 6);
+	if (!numarr)
+		return (-1);
+	y = 0;
+	i = 0;
+	while (y < 4)
+	{
+		x = 0;
+		while (x < 4)
+		{
+			if (temp[y][x] == 1)
+			{
+				arr[i] = y;
+				arr[i + 1] = x;
+				i += 2;
+			}
+			x++;
+		}
+		y++;
+	}
+	numarr[0] = arr[2] - arr[0];
+	numarr[1] = arr[3] - arr[1];
+	
+	numarr[2] = arr[4] - arr[0];
+	numarr[3] = arr[5] - arr[1];
+	
+	numarr[4] = arr[6] - arr[0];
+	numarr[5] = arr[7] - arr[1];
+
+	for (int i = 0; i < 6; i += 2)
+		printf("%d  %d\n", numarr[i], numarr[i + 1]);
+	return (0);
+}
+
 static int	get_tetrimino(int fd)
 {
 	int		*temp[4];
@@ -108,6 +150,7 @@ static int	get_tetrimino(int fd)
 			i = ft_get_next_line(fd, &line);
 			ft_strdel(&line);
 			print_arr(temp);
+			store_tetrmino(temp);
 		}
 		else
 			count = -1;
