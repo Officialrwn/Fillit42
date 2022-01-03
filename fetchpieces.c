@@ -6,11 +6,37 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:46:18 by leo               #+#    #+#             */
-/*   Updated: 2022/01/03 22:53:58 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/03 23:05:24 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fillit.h"
+
+int	get_tetrimino(int fd)
+{
+	int		temp[16];
+	int		i;
+	int		count;
+	char	*line;
+
+	i = 1;
+	count = 0;
+	while (i > 0 && count >= 0)
+	{
+		if (check_tetrimino_format(fd, temp, line) == 1
+			&& check_valid_tetrimino_piece(temp) > 0)
+		{
+			count++;
+			i = ft_get_next_line(fd, &line);
+			ft_strdel(&line);
+			print_arr(temp);
+			store_tetrmino(temp);
+		}
+		else
+			count = -1;
+	}
+	return (count);
+}
 
 int	check_tetrimino_format(int fd, int *temp, char *line)
 {
@@ -70,6 +96,12 @@ int	check_valid_tetrimino_piece(int *temp)
 	return (block_count);
 }
 
+/*
+** store_tetrmino should return a malloced int *arr
+** instead of the stack int arr[6] and replace print_stored_arr
+** with return int *arr;
+*/
+
 void	store_tetrmino(int *temp)
 {
 	int	arr[6];
@@ -97,30 +129,4 @@ void	store_tetrmino(int *temp)
 		}
 	}
 	print_stored_tetrimino(arr);
-}
-
-int	get_tetrimino(int fd)
-{
-	int		temp[16];
-	char	*line;
-	int		i;
-	int		count;
-
-	i = 1;
-	count = 0;
-	while (i > 0 && count >= 0)
-	{
-		if (check_tetrimino_format(fd, temp, line) == 1
-			&& check_valid_tetrimino_piece(temp) > 0)
-		{
-			count++;
-			i = ft_get_next_line(fd, &line);
-			ft_strdel(&line);
-			print_arr(temp);
-			store_tetrmino(temp);
-		}
-		else
-			count = -1;
-	}
-	return (count);
 }
