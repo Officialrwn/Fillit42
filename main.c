@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   testmain.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 22:47:40 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/02 16:52:50 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/03 16:05:53 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,49 +59,33 @@ static int	check_tetrimino_format(int fd, int **temp, char *line)
 	return (check);
 }
 
-static int	count_blocks(int **temp, int y, int x)
-{
-	int		count;
-
-	count = 0;
-	if (y != 0 && temp[y - 1][x] == 1)
-		count++;
-	if (y != 3 && temp[y + 1][x] == 1)
-		count++;
-	if (x != 0 && temp[y][x - 1] == 1)
-		count++;
-	if (x != 3 && temp[y][x + 1] == 1)
-		count++;
-	return (count);
-}
-
 static int	check_valid_tetrimino_piece(int **temp)
 {
-	int	check;
-	int	count;
-	int	y;
-	int	x;
+	int	i;
+	int	block_count;
+	int	block_check;
 
-	check = 0;
-	count = 0;
-	y = 0;
-	while (y < 4)
+	i = 16;
+	block_count = 0;
+	block_check = 0;
+	while (i--)
 	{
-		x = 0;
-		while (x < 4)
+		if (temp[0][i] == 1)
 		{
-			if (temp[y][x] == 1)
-			{
-				check += count_blocks(temp, y, x);
-				count++;
-			}
-			x++;
+			block_count++;
+			if (i > 3 && temp[0][i - 4] == 1)
+				block_check++;
+			if (i < 12 && temp[0][i + 4] == 1)
+				block_check++;
+			if (i % 4 > 0 && temp[0][i - 1] == 1)
+				block_check++;
+			if (i % 4 < 3 && temp[0][i + 1] == 1)
+				block_check++;
 		}
-		y++;
 	}
-	if (count != 4 || (check != 6 && check != 8))
-		check = 0;
-	return (check);
+	if (block_count != 4 || (block_check != 6 && block_check != 8))
+		block_count = 0;
+	return (block_count);
 }
 
 static int	get_tetrimino(int fd)
@@ -123,10 +107,10 @@ static int	get_tetrimino(int fd)
 			count++;
 			i = ft_get_next_line(fd, &line);
 			ft_strdel(&line);
+			print_arr(temp);
 		}
 		else
 			count = -1;
-		print_arr(temp);
 	}
 	return (count);
 }

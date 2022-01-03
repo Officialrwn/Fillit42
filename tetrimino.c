@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 16:35:26 by leo               #+#    #+#             */
-/*   Updated: 2022/01/02 16:49:49 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/03 15:25:36 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,22 @@ static void test_function(int **arr)
 {
 	arr[0][3] = 1;
 }
+
 int main(int argc, char **argv)
 {
 	int *arr[4];
 	for (int i = 0; i < 4; i++)
 		arr[i] = (int *)malloc(4 * sizeof(int));
-	
+
+	int i = 3;
+	printf("0: %d\n", i % 4);
+	i = 7;
+	printf("0: %d\n", i % 4);
+	i = 11;
+	printf("0: %d\n", i % 4);
+	i = 15;
+	printf("0: %d\n", i % 4);
+
 //	test_function(arr);
 	
 	ft_foreach(arr[0], 4, &ft_putnbr);
