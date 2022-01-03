@@ -6,17 +6,13 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 22:47:40 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/03 19:36:28 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/03 22:56:36 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include "libft/libft.h"
+#include "ft_fillit.h"
 
-static void	print_arr(int **temp)
+void	print_arr(int *temp)
 {
 	int	i;
 
@@ -25,137 +21,21 @@ static void	print_arr(int **temp)
 	{
 		if (i == 4 || i == 8 || i == 12 || i == 16)
 			printf("\n");
-		printf("%d ", temp[0][i++]);
+		printf("%d ", temp[i++]);
 	}
 	printf("\n\n");
 }
 
-static int	check_tetrimino_format(int fd, int **temp, char *line)
-{
-	int		check;
-	int		x;
-	int		y;
-	int		i;
-
-	check = 1;
-	y = 0;
-	i = 0;
-	while (y++ < 4 && check > 0)
-	{
-		ft_get_next_line(fd, &line);
-		x = 0;
-		while (x < 4 && check > 0)
-		{
-			if (line[x] == '#')
-				temp[0][i++] = 1;
-			else if (line[x] != '.' || line[4] != '\0')
-				check = 0;
-			else
-				temp[0][i++] = 0;
-			x++;
-		}
-		ft_strdel(&line);
-	}
-	return (check);
-}
-
-static int	check_valid_tetrimino_piece(int **temp)
+void	print_stored_tetrimino(int *numarr)
 {
 	int	i;
-	int	block_count;
-	int	block_check;
 
-	i = 16;
-	block_count = 0;
-	block_check = 0;
-	while (i--)
-	{
-		if (temp[0][i] == 1)
-		{
-			block_count++;
-			if (i > 3 && temp[0][i - 4] == 1)
-				block_check++;
-			if (i < 12 && temp[0][i + 4] == 1)
-				block_check++;
-			if (i % 4 > 0 && temp[0][i - 1] == 1)
-				block_check++;
-			if (i % 4 < 3 && temp[0][i + 1] == 1)
-				block_check++;
-		}
-	}
-	if (block_count != 4 || (block_check != 6 && block_check != 8))
-		block_count = 0;
-	return (block_count);
-}
-
-static int store_tetrmino(int **temp)
-{
-	int	*numarr;
-	int	arr[8];
-	int	y;
-	int	x;
-	int	i;
-
-	numarr = (int *)malloc(sizeof(numarr) * 6);
-	if (!numarr)
-		return (-1);
-	y = 0;
 	i = 0;
-	while (y < 4)
+	while (i < 6)
 	{
-		x = 0;
-		while (x < 4)
-		{
-			if (temp[y][x] == 1)
-			{
-				arr[i] = y;
-				arr[i + 1] = x;
-				i += 2;
-			}
-			x++;
-		}
-		y++;
-	}
-	numarr[0] = arr[2] - arr[0];
-	numarr[1] = arr[3] - arr[1];
-	
-	numarr[2] = arr[4] - arr[0];
-	numarr[3] = arr[5] - arr[1];
-	
-	numarr[4] = arr[6] - arr[0];
-	numarr[5] = arr[7] - arr[1];
-
-	for (int i = 0; i < 6; i += 2)
 		printf("%d  %d\n", numarr[i], numarr[i + 1]);
-	return (0);
-}
-
-static int	get_tetrimino(int fd)
-{
-	int		*temp[4];
-	char	*line;
-	int		i;
-	int		count;
-
-	i = 0;
-	count = 0;
-	while (i < 4)
-		temp[i++] = (int *)malloc(sizeof(int) * 4);
-	while (i > 0 && count >= 0)
-	{
-		if (check_tetrimino_format(fd, temp, line) == 1
-			&& check_valid_tetrimino_piece(temp) > 0)
-		{
-			count++;
-			i = ft_get_next_line(fd, &line);
-			ft_strdel(&line);
-			print_arr(temp);
-			store_tetrmino(temp);
-		}
-		else
-			count = -1;
+		i += 2;
 	}
-	return (count);
 }
 
 int	main(int argc, char **argv)
