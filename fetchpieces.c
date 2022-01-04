@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:46:18 by leo               #+#    #+#             */
-/*   Updated: 2022/01/03 23:05:24 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/04 02:21:24 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	get_tetrimino(int fd)
 		{
 			count++;
 			i = ft_get_next_line(fd, &line);
-			ft_strdel(&line);
+			if (i > 0)
+				ft_strdel(&line);
 			print_arr(temp);
 			store_tetrmino(temp);
 		}
