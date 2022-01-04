@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fetchpieces.c                                      :+:      :+:    :+:   */
+/*   get_tetriminos.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:46:18 by leo               #+#    #+#             */
-/*   Updated: 2022/01/04 02:21:24 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/04 23:15:28 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fillit.h"
 
-int	get_tetrimino(int fd)
+int	read_tetrimino(int fd, t_piece *tetriminos, char c)
 {
 	int		temp[16];
 	int		i;
@@ -24,14 +24,16 @@ int	get_tetrimino(int fd)
 	while (i > 0 && count >= 0)
 	{
 		if (check_tetrimino_format(fd, temp, line) == 1
-			&& check_valid_tetrimino_piece(temp) > 0)
+			&& validate_tetrimino(temp) > 0)
 		{
-			count++;
 			i = ft_get_next_line(fd, &line);
 			if (i > 0)
 				ft_strdel(&line);
-			print_arr(temp);
-			store_tetrmino(temp);
+			tetriminos[count].content = (int *)malloc(sizeof(int) * 6);
+			if (!tetriminos[count].content)
+				return (free_tetriminos(tetriminos, count));
+			store_tetrmino(temp, tetriminos, c, count);
+			count++;
 		}
 		else
 			count = -1;
@@ -41,10 +43,10 @@ int	get_tetrimino(int fd)
 
 int	check_tetrimino_format(int fd, int *temp, char *line)
 {
-	int		check;
-	int		x;
-	int		y;
-	int		i;
+	int	check;
+	int	x;
+	int	y;
+	int	i;
 
 	check = 1;
 	y = 0;
@@ -68,7 +70,7 @@ int	check_tetrimino_format(int fd, int *temp, char *line)
 	return (check);
 }
 
-int	check_valid_tetrimino_piece(int *temp)
+int	validate_tetrimino(int *temp)
 {
 	int	i;
 	int	block_count;
@@ -97,15 +99,8 @@ int	check_valid_tetrimino_piece(int *temp)
 	return (block_count);
 }
 
-/*
-** store_tetrmino should return a malloced int *arr
-** instead of the stack int arr[6] and replace print_stored_arr
-** with return int *arr;
-*/
-
-void	store_tetrmino(int *temp)
+void	store_tetrmino(int *temp, t_piece *tetriminos, char c, int count)
 {
-	int	arr[6];
 	int	y;
 	int	x;
 	int	i;
@@ -113,6 +108,7 @@ void	store_tetrmino(int *temp)
 
 	i = 0;
 	j = 0;
+	tetriminos[count].litera = c + count;
 	while (temp[i] != 1)
 		i++;
 	if (temp[i] == 1)
@@ -120,14 +116,23 @@ void	store_tetrmino(int *temp)
 		y = (i - (i % 4)) / 4;
 		x = i % 4;
 	}
-	while (i++ < 16)
+	while (i++ < 16 && j < 6)
 	{
 		if (temp[i] == 1)
 		{
-			arr[j] = (i - (i % 4)) / 4 - y;
-			arr[j + 1] = (i % 4) - x;
+			tetriminos[count].content[j] = (i - (i % 4)) / 4 - y;
+			tetriminos[count].content[j + 1] = (i % 4) - x;
 			j += 2;
 		}
 	}
-	print_stored_tetrimino(arr);
+}
+
+int	free_tetriminos(t_piece *tetriminos, int count)
+{
+	while (count--)
+	{
+		free(tetriminos[count].content);
+		tetriminos[count].content = NULL;
+	}
+	return (-1);
 }

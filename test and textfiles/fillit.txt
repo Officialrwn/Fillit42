@@ -37,11 +37,49 @@ C . D D F F
 C E E G G F
 E E . G G F
 
-A A . . B
-A A B B B
-C C D D . 
-C . D D .
-C E E F F
-E E . H F
-G G . H F
-G G H H .
+
+
+
+
+
+
+
+
+
+
+
+
+
+y = 0, x = 0;
+//Second Piece
+y + arr[0]
+x + arr[1]
+
+//Third Piece
+y + arr[2]
+x + arr[3]
+
+//Fourth Piece
+y + arr[4]
+x + arr[5]
+
+y = 0 , x = 1
+
+
+if (map[y][x] == '.')
+
+y = 0, x = 1;
+x++
+map[y][x]
+Map
+  0 1 2 3 4
+0 . . . . .
+1 . . . . .
+2 . . . . .
+3 . . . . .
+4 . . . . .
+
+char arr[2][2]
+  0 1
+0 # #
+1 # #

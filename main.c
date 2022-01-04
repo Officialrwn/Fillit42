@@ -6,52 +6,36 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 22:47:40 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/03 22:56:36 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/04 23:20:27 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fillit.h"
 
-void	print_arr(int *temp)
-{
-	int	i;
-
-	i = 0;
-	while (i < 16)
-	{
-		if (i == 4 || i == 8 || i == 12 || i == 16)
-			printf("\n");
-		printf("%d ", temp[i++]);
-	}
-	printf("\n\n");
-}
-
-void	print_stored_tetrimino(int *numarr)
-{
-	int	i;
-
-	i = 0;
-	while (i < 6)
-	{
-		printf("%d  %d\n", numarr[i], numarr[i + 1]);
-		i += 2;
-	}
-}
-
 int	main(int argc, char **argv)
 {
-	int	fd;
-	int	i;
+	int		fd;
+	int		count;
+	char	c;
+	t_piece	tetriminos[26];
 
-	i = 0;
+	count = 0;
+	c = 'A';
 	fd = open(argv[1], O_RDONLY);
-	if (argc != 2)
+	if (argc != 2 || fd < 0)
 		return (0);
 	else
 	{
-		i = get_tetrimino(fd);
-		if (i > 0 && i <= 26)
-			printf("Valid file, tetriminoscount: %d\n", i);
+		count = read_tetrimino(fd, tetriminos, c);
+		if (count > 0 && count <= 26)
+		{
+			//Generate Map based on count;
+			//Solve function
+			//If Map too small, resize map + 1;
+			//Solve function
+			print_tetrimino_c_yx(tetriminos, count);
+			printf("Valid file, tetriminoscount: %d\n", count);
+		}
 		else
 			printf("invalid file");
 	}

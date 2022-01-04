@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tetrimino.c                                        :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 16:35:26 by leo               #+#    #+#             */
-/*   Updated: 2022/01/03 22:25:55 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/04 21:44:26 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "libft/libft.h"
+#include "ft_fillit.h"
 
-static void test_function(int **arr)
+static void test_function(t_piece tetrimino)
 {
-	arr[0][3] = 1;
+	ft_memset(tetrimino.content, 0, sizeof(tetrimino.content));
+	for (int i = 0; i < 6; i++)
+		printf("t: %d\n", tetrimino.content[i]);
 }
 
 int main(int argc, char **argv)
 {
-	for (int i = 0; i < 16; i++)
-		printf("i: %d y: %d x: %d\n", i, (i - (i % 4)) / 4, i % 4);
-	// y: (i - (i % 4)) / 4;
-	// x: i % 4;
+	t_piece tetriminos[5];
+	
+	test_function(tetriminos[0]);
 	
 	return (0);
 }

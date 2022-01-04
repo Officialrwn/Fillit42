@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:47:59 by leo               #+#    #+#             */
-/*   Updated: 2022/01/03 22:57:12 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/04 23:18:33 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,20 @@
 
 # include <stdio.h>
 
+typedef struct s_piece
+{
+	int		*content;
+	char	litera;
+}				t_piece;
+
+int		read_tetrimino(int fd, t_piece *tetrminos, char c);
 int		check_tetrimino_format(int fd, int *temp, char *line);
-int		check_valid_tetrimino_piece(int *temp);
-int		get_tetrimino(int fd);
-void	store_tetrmino(int *temp);
+int		validate_tetrimino(int *temp);
+int		free_tetriminos(t_piece *tetriminos, int count);
+void	store_tetrmino(int *temp, t_piece *tetriminos, char c, int count);
 
 void	print_arr(int *temp);
 void	print_stored_tetrimino(int *numarr);
+void	print_tetrimino_c_yx(t_piece *tetriminos, int count);
 
 #endif
