@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:46:18 by leo               #+#    #+#             */
-/*   Updated: 2022/01/05 19:25:12 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/05 23:38:31 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ int	read_tetrimino(int fd, t_piece *tetriminos, char c)
 		if (check_tetrimino_format(fd, temp, line) > 0
 			&& validate_tetrimino(temp) > 0)
 		{
-			i = ft_get_next_line(fd, &line);
-			ft_strdel(&line);
 			tetriminos[count].content = (int *)malloc(sizeof(int) * 6);
 			if (!tetriminos[count].content)
 				return (free_tetriminos(tetriminos, count));
 			count = store_tetrmino(temp, tetriminos, c, count);
+			i = ft_get_next_line(fd, &line);
+			printf("i: %d line: %s\n", i, line);
+			ft_strdel(&line);
 		}
 		else
 			count = -1;
@@ -50,8 +51,8 @@ int	check_tetrimino_format(int fd, int *temp, char *line)
 	while (y-- && i >= 0)
 	{
 		ft_get_next_line(fd, &line);
-		x = 4;
-		while (x-- && i >= 0)
+		x = 0;
+		while (x < 4 && i >= 0 && line != NULL)
 		{
 			if (line[x] == '#')
 				temp[i++] = 1;
@@ -59,6 +60,7 @@ int	check_tetrimino_format(int fd, int *temp, char *line)
 				i = -1;
 			else
 				temp[i++] = 0;
+			x++;
 		}
 		ft_strdel(&line);
 	}

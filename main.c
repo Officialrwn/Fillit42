@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 22:47:40 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/05 19:02:31 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/05 23:57:13 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,16 @@ int	main(int argc, char **argv)
 			//Solve function
 			print_tetrimino_c_yx(tetriminos, count);
 			printf("Valid file, tetriminoscount: %d\n", count);
+			free_tetriminos(tetriminos, count);
 		}
 		else
-			printf("invalid file");
+			printf("invalid file\n");
 	}
-	free_tetriminos(tetriminos, count);
 	return (0);
 }
+/* has leaks if file is invalid (count = -1)
+** doesnt free the malloced arrays then because cant return 
+** count to free tetriminos
+** Potentionally rewrite the check_tetrmino_format and skip GNL
+** and small change to read_tetrimino.
+*/
