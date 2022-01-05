@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 22:47:40 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/04 23:20:27 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/05 19:02:31 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ int	main(int argc, char **argv)
 		else
 			printf("invalid file");
 	}
+	free_tetriminos(tetriminos, count);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:46:18 by leo               #+#    #+#             */
-/*   Updated: 2022/01/04 23:15:28 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/05 19:25:12 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,15 @@ int	read_tetrimino(int fd, t_piece *tetriminos, char c)
 	count = 0;
 	while (i > 0 && count >= 0)
 	{
-		if (check_tetrimino_format(fd, temp, line) == 1
+		if (check_tetrimino_format(fd, temp, line) > 0
 			&& validate_tetrimino(temp) > 0)
 		{
 			i = ft_get_next_line(fd, &line);
-			if (i > 0)
-				ft_strdel(&line);
+			ft_strdel(&line);
 			tetriminos[count].content = (int *)malloc(sizeof(int) * 6);
 			if (!tetriminos[count].content)
 				return (free_tetriminos(tetriminos, count));
-			store_tetrmino(temp, tetriminos, c, count);
-			count++;
+			count = store_tetrmino(temp, tetriminos, c, count);
 		}
 		else
 			count = -1;
@@ -43,31 +41,28 @@ int	read_tetrimino(int fd, t_piece *tetriminos, char c)
 
 int	check_tetrimino_format(int fd, int *temp, char *line)
 {
-	int	check;
 	int	x;
 	int	y;
 	int	i;
 
-	check = 1;
-	y = 0;
+	y = 4;
 	i = 0;
-	while (y++ < 4 && check > 0)
+	while (y-- && i >= 0)
 	{
 		ft_get_next_line(fd, &line);
-		x = 0;
-		while (x < 4 && check > 0)
+		x = 4;
+		while (x-- && i >= 0)
 		{
 			if (line[x] == '#')
 				temp[i++] = 1;
 			else if (line[x] != '.' || line[4] != '\0')
-				check = 0;
+				i = -1;
 			else
 				temp[i++] = 0;
-			x++;
 		}
 		ft_strdel(&line);
 	}
-	return (check);
+	return (i);
 }
 
 int	validate_tetrimino(int *temp)
@@ -99,7 +94,7 @@ int	validate_tetrimino(int *temp)
 	return (block_count);
 }
 
-void	store_tetrmino(int *temp, t_piece *tetriminos, char c, int count)
+int	store_tetrmino(int *temp, t_piece *tetriminos, char c, int count)
 {
 	int	y;
 	int	x;
@@ -125,6 +120,7 @@ void	store_tetrmino(int *temp, t_piece *tetriminos, char c, int count)
 			j += 2;
 		}
 	}
+	return (count + 1);
 }
 
 int	free_tetriminos(t_piece *tetriminos, int count)

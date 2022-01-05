@@ -37,19 +37,6 @@ C . D D F F
 C E E G G F
 E E . G G F
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 y = 0, x = 0;
 //Second Piece
 y + arr[0]

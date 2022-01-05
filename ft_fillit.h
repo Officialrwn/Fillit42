@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:47:59 by leo               #+#    #+#             */
-/*   Updated: 2022/01/04 23:18:33 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/05 18:54:27 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ int		read_tetrimino(int fd, t_piece *tetrminos, char c);
 int		check_tetrimino_format(int fd, int *temp, char *line);
 int		validate_tetrimino(int *temp);
 int		free_tetriminos(t_piece *tetriminos, int count);
-void	store_tetrmino(int *temp, t_piece *tetriminos, char c, int count);
+int		store_tetrmino(int *temp, t_piece *tetriminos, char c, int count);
+char	**map_generator(int size);
+char	**resize_map(int size);
+int		free_map(char **map, int i);
 
 void	print_arr(int *temp);
 void	print_stored_tetrimino(int *numarr);
