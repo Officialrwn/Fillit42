@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:47:59 by leo               #+#    #+#             */
-/*   Updated: 2022/01/05 23:01:33 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/06 20:55:20 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ typedef struct s_piece
 	char	litera;
 }				t_piece;
 
-int		read_tetrimino(int fd, t_piece *tetrminos, char c);
-int		check_tetrimino_format(int fd, int *temp, char *line);
-int		validate_tetrimino(int *temp);
-int		free_tetriminos(t_piece *tetriminos, int count);
-int		store_tetrmino(int *temp, t_piece *tetriminos, char c, int count);
+int		read_tetrimino(int fd, t_piece *tetrminos);
+int		check_tetrimino_format(int fd, char *temp, char *line);
+int		validate_tetrimino(char *temp);
+int		free_tetriminos(t_piece *tetriminos);
+void	store_tetrmino(char *temp, t_piece tetriminos);
 char	**map_generator(int size);
 char	**resize_map(int size);
 int		free_map(char **map, int i);

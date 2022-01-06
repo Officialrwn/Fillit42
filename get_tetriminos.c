@@ -6,68 +6,69 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:46:18 by leo               #+#    #+#             */
-/*   Updated: 2022/01/05 23:38:31 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/06 21:14:13 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fillit.h"
 
-int	read_tetrimino(int fd, t_piece *tetriminos, char c)
+int	read_tetrimino(int fd, t_piece *tetriminos)
 {
-	int		temp[16];
 	int		i;
 	int		count;
+	char	temp[17];
 	char	*line;
+	char	c;
 
 	i = 1;
 	count = 0;
-	while (i > 0 && count >= 0)
+	c = 'A';
+	while (i > 0)
 	{
-		if (check_tetrimino_format(fd, temp, line) > 0
-			&& validate_tetrimino(temp) > 0)
+		i = check_tetrimino_format(fd, temp, line);
+		if (i > 0 && validate_tetrimino(temp) > 0)
 		{
 			tetriminos[count].content = (int *)malloc(sizeof(int) * 6);
 			if (!tetriminos[count].content)
-				return (free_tetriminos(tetriminos, count));
-			count = store_tetrmino(temp, tetriminos, c, count);
-			i = ft_get_next_line(fd, &line);
-			printf("i: %d line: %s\n", i, line);
-			ft_strdel(&line);
+				return (-1);
+			store_tetrmino(temp, tetriminos[count]);
+			tetriminos[count].litera = c + count;
+			count++;
 		}
-		else
+		if (i == -1)
 			count = -1;
 	}
 	return (count);
 }
 
-int	check_tetrimino_format(int fd, int *temp, char *line)
+int	check_tetrimino_format(int fd, char *temp, char *line)
 {
-	int	x;
-	int	y;
-	int	i;
+	char	buffer[22];
+	int		i;
+	int		j;
+	int		read_ret;
 
-	y = 4;
 	i = 0;
-	while (y-- && i >= 0)
+	j = 0;
+	read_ret = read(fd, buffer, 21);
+	temp[16] = '\0';
+	if (read_ret >= 0)
+		buffer[read_ret] = '\0';
+	while (read_ret > 0 && i < 20)
 	{
-		ft_get_next_line(fd, &line);
-		x = 0;
-		while (x < 4 && i >= 0 && line != NULL)
-		{
-			if (line[x] == '#')
-				temp[i++] = 1;
-			else if (line[x] != '.' || line[4] != '\0')
-				i = -1;
-			else
-				temp[i++] = 0;
-			x++;
-		}
-		ft_strdel(&line);
+		if (i % 5 == 4 && buffer[i] != '\n')
+			return (-1);
+		else if (buffer[i] == '#' || buffer[i] == '.')
+			temp[j++] = buffer[i++];
+		else
+			i++;
 	}
-	return (i);
+	if ((read_ret == 21 && j != 16) || (read_ret > 0 && buffer[20] != '\n'))
+		return (-1);
+	return (read_ret);
 }
 
-int	validate_tetrimino(int *temp)
+int	validate_tetrimino(char *temp)
 {
 	int	i;
 	int	block_count;
@@ -78,16 +79,16 @@ int	validate_tetrimino(int *temp)
 	block_check = 0;
 	while (i--)
 	{
-		if (temp[i] == 1)
+		if (temp[i] == '#')
 		{
 			block_count++;
-			if (i > 3 && temp[i - 4] == 1)
+			if (i > 3 && temp[i - 4] == '#')
 				block_check++;
-			if (i < 12 && temp[i + 4] == 1)
+			if (i < 12 && temp[i + 4] == '#')
 				block_check++;
-			if (i % 4 > 0 && temp[i - 1] == 1)
+			if (i % 4 > 0 && temp[i - 1] == '#')
 				block_check++;
-			if (i % 4 < 3 && temp[i + 1] == 1)
+			if (i % 4 < 3 && temp[i + 1] == '#')
 				block_check++;
 		}
 	}
@@ -96,7 +97,7 @@ int	validate_tetrimino(int *temp)
 	return (block_count);
 }
 
-int	store_tetrmino(int *temp, t_piece *tetriminos, char c, int count)
+void	store_tetrmino(char *temp, t_piece tetriminos)
 {
 	int	y;
 	int	x;
@@ -105,32 +106,36 @@ int	store_tetrmino(int *temp, t_piece *tetriminos, char c, int count)
 
 	i = 0;
 	j = 0;
-	tetriminos[count].litera = c + count;
-	while (temp[i] != 1)
+	while (temp[i] != '#')
 		i++;
-	if (temp[i] == 1)
+	if (temp[i] == '#')
 	{
 		y = (i - (i % 4)) / 4;
 		x = i % 4;
 	}
 	while (i++ < 16 && j < 6)
 	{
-		if (temp[i] == 1)
+		if (temp[i] == '#')
 		{
-			tetriminos[count].content[j] = (i - (i % 4)) / 4 - y;
-			tetriminos[count].content[j + 1] = (i % 4) - x;
+			tetriminos.content[j] = (i - (i % 4)) / 4 - y;
+			tetriminos.content[j + 1] = (i % 4) - x;
 			j += 2;
 		}
 	}
-	return (count + 1);
 }
 
-int	free_tetriminos(t_piece *tetriminos, int count)
+int	free_tetriminos(t_piece *tetriminos)
 {
-	while (count--)
+	int	i;
+
+	i = 26;
+	while (i--)
 	{
-		free(tetriminos[count].content);
-		tetriminos[count].content = NULL;
+		if (tetriminos[i].content != NULL)
+		{
+			free(tetriminos[i].content);
+			tetriminos[i].content = NULL;
+		}
 	}
 	return (-1);
 }
