@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:47:59 by leo               #+#    #+#             */
-/*   Updated: 2022/01/06 20:55:20 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/07 19:19:07 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_piece
 	char	litera;
 }				t_piece;
 
-int		read_tetrimino(int fd, t_piece *tetrminos);
+int		read_tetrimino(int fd, t_piece *tetrminos, char c);
 int		check_tetrimino_format(int fd, char *temp, char *line);
 int		validate_tetrimino(char *temp);
 int		free_tetriminos(t_piece *tetriminos);
