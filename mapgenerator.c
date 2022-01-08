@@ -6,30 +6,49 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:42:00 by leo               #+#    #+#             */
-/*   Updated: 2022/01/05 16:50:36 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/08 19:31:31 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fillit.h"
 
-char	**map_generator(int size)
+size_t	get_min_board_size(int tet_count)
+{
+	int		num_hashes;
+	int		size;
+
+	size = 1;
+	num_hashes = tet_count * 4;
+	while (size * size < num_hashes)
+		size++;
+	return (size);
+}
+
+char	**map_generator(size_t size)
 {
 	int		i;
 	char	**map;
 
 	i = 0;
-	map = (char **)malloc(sizeof(char *) * 5);
+	map = (char **)malloc(sizeof(char *) * size);
 	if (!map)
-		return (-1);
-	while (i < 5)
+		return (NULL);
+	while (i < size)
 	{
-		map[i] = (char *)malloc(sizeof(char) * 5);
+		map[i] = (char *)malloc(sizeof(char) * (size + 1));
 		if (!map[i])
-			return (free_map(map, i));
-		ft_memset(map[i], '.', 4);
-		map[i][4] = '\0';
-		i++;
+		{
+			free_map(map, i);
+			return (NULL);
+		}
+		else
+		{
+			ft_memset(map[i], '.', size);
+			map[i][size] = '\0';
+			i++;
+		}
 	}
+	return (map);
 }
 
 char	**resize_map(int size)
@@ -37,12 +56,25 @@ char	**resize_map(int size)
 	return (NULL);
 }
 
-int	free_map(char **map, int i)
+void	free_map(char **map, size_t size)
 {
-	while (i--)
+	while (size--)
 	{
-		ft_strdel(&map[i]);
+		ft_strdel(&map[size]);
 	}
-	ft_strdel(map);
-	return (-1);
+	free(map);
+	map = NULL;
+}
+
+void	print_map(char **map, size_t size)
+{
+	for (size_t i = 0; i < size; i++)
+	{
+		for (size_t j = 0; j < size; j++)
+		{
+			printf("%c ", map[i][j]);
+		}
+		printf("\n");
+	}
+	printf("\n");
 }

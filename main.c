@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 22:47:40 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/08 17:11:23 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/08 19:34:56 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,30 @@ int	main(int argc, char **argv)
 {
 	int		fd;
 	int		count;
+	char	**map;
+	size_t	size;
 	t_piece	tetriminos[26];
 
-	count = 0;
 	fd = open(argv[1], O_RDONLY);
-	set_content_to_null(tetriminos);
 	if (argc != 2 || fd < 0)
 		return (1);
 	else
 	{
+		set_content_to_null(tetriminos);
 		count = read_tetrimino(fd, tetriminos, 'A');
 		if (count > 0 && count <= 26)
 		{
 			print_tetrimino_c_yx(tetriminos, count);
-			printf("Valid file, tetriminoscount: %d\n", count);
+			printf("Valid file, tetriminoscount: %d\n\n", count);
+			size = get_min_board_size(count);
+			map = map_generator(size);
+			if (!map)
+				return (1);
+			print_map(map, size);
 		}
 		else
 			printf("invalid file\n");
+		free_map(map, size);
 		free_tetriminos(tetriminos);
 	}
 	return (0);
