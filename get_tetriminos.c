@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:46:18 by leo               #+#    #+#             */
-/*   Updated: 2022/01/07 19:23:24 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/08 17:18:40 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ int	read_tetrimino(int fd, t_piece *tetriminos, char c)
 	char	temp[17];
 	char	*line;
 
-	i = 21;
+	i = 1;
 	count = 0;
-	while (i > 20)
+	while (i > 0)
 	{
 		i = check_tetrimino_format(fd, temp, line);
 		j = validate_tetrimino(temp);
-		if (i > 0 && j > 0)
+		if (i >= 0 && j > 0)
 		{
 			tetriminos[count].content = (int *)malloc(sizeof(int) * 6);
 			if (!tetriminos[count].content)
@@ -35,8 +35,8 @@ int	read_tetrimino(int fd, t_piece *tetriminos, char c)
 			tetriminos[count].litera = c + count;
 			count++;
 		}
-		if (i == -1 || j == -1)
-			return (-1);
+		if (i == -1 || j == 0)
+			return (0);
 	}
 	return (count);
 }
@@ -64,7 +64,7 @@ int	check_tetrimino_format(int fd, char *temp, char *line)
 	}
 	if (read_ret == 0 || (read_ret >= 20 && j != 16))
 		return (-1);
-	return (read_ret);
+	return (read_ret == 21);
 }
 
 int	validate_tetrimino(char *temp)
@@ -91,9 +91,7 @@ int	validate_tetrimino(char *temp)
 				block_check++;
 		}
 	}
-	if (block_count != 4 || (block_check != 6 && block_check != 8))
-		return (-1);
-	return (block_count);
+	return (block_count == 4 && (block_check == 6 || block_check == 8));
 }
 
 void	store_tetrmino(char *temp, t_piece tetriminos)

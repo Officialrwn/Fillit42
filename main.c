@@ -6,13 +6,13 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 22:47:40 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/07 19:20:03 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/08 17:11:23 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fillit.h"
 
-void	set_content_to_null(t_piece *tetriminos)
+static void	set_content_to_null(t_piece *tetriminos)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	set_content_to_null(tetriminos);
 	if (argc != 2 || fd < 0)
-		return (0);
+		return (1);
 	else
 	{
 		count = read_tetrimino(fd, tetriminos, 'A');
