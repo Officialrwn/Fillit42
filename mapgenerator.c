@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:42:00 by leo               #+#    #+#             */
-/*   Updated: 2022/01/08 19:31:31 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/08 23:32:17 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ size_t	get_min_board_size(int tet_count)
 	int		size;
 
 	size = 1;
+	if (tet_count < 4)
+		tet_count  = 4;
 	num_hashes = tet_count * 4;
 	while (size * size < num_hashes)
 		size++;

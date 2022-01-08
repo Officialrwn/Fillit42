@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:47:59 by leo               #+#    #+#             */
-/*   Updated: 2022/01/08 19:25:56 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/09 00:29:13 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ char	**resize_map(int size);
 void	free_map(char **map, size_t size);
 void	print_map(char **map, size_t size);
 size_t	get_min_board_size(int tet_count);
+
+int		place_tetrimino(t_piece tetriminos, char **map, int y, int x);
+int		solve_tetrimino(t_piece *tetriminos, int count, size_t size, char **map);
 
 void	print_arr(int *temp);
 void	print_stored_tetrimino(int *numarr);

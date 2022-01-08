@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 22:47:40 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/08 19:34:56 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/09 00:44:30 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,14 @@ int	main(int argc, char **argv)
 			map = map_generator(size);
 			if (!map)
 				return (1);
-			print_map(map, size);
+			if (solve_tetrimino(tetriminos, count, size, map))
+				print_map(map, size);
+			else
+				printf("couldnt fit\n");
+			free_map(map, size);
 		}
 		else
 			printf("invalid file\n");
-		free_map(map, size);
 		free_tetriminos(tetriminos);
 	}
 	return (0);
