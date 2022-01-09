@@ -6,30 +6,15 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 17:26:55 by leo               #+#    #+#             */
-/*   Updated: 2022/01/09 01:23:24 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/09 20:04:30 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fillit.h"
 
-int	check_if_tetrimino_fit(t_piece tetriminos, size_t size, int y, int x)
-{
-	int	count;
-	int	i;
+//void	remove_tetrimino(t_piece )
 
-	count = 0;
-	i = 0;
-	while (i < 6)
-	{
-		if (y + tetriminos.content[i] < size \
-		&& x + tetriminos.content[i + 1] < size)
-			count++;
-		i += 2;
-	}
-	return (count == 3);
-}
-
-int	place_tetrimino(t_piece tetriminos, char **map, int y, int x)
+int	place_tetrimino(t_piece tetmin, char **board, int y, int x)
 {
 	int		i;
 	int		count;
@@ -37,28 +22,27 @@ int	place_tetrimino(t_piece tetriminos, char **map, int y, int x)
 
 	i = 0;
 	count = 0;
-	c = tetriminos.litera;
+	c = tetmin.litera;
 	while (i < 6)
 	{
-		if (map[y + tetriminos.content[i]] \
-		[x + tetriminos.content[i + 1]] == '.')
+		if (board[y + tetmin.content[i]][x + tetmin.content[i + 1]] == '.')
 			count++;
 		i += 2;
 	}
 	i = 0;
 	if (count == 3)
 	{
-		map[y][x] = c;
+		board[y][x] = c;
 		while (i < 6)
 		{
-			map[y + tetriminos.content[i]][x + tetriminos.content[i + 1]] = c;
+			board[y + tetmin.content[i]][x + tetmin.content[i + 1]] = c;
 			i += 2;
 		}
 	}
 	return (count == 3);
 }
 
-int	solve_tetrimino(t_piece *tetriminos, int count, size_t size, char **map)
+int	solve_tetrimino(t_piece *tetmin, int count, int size, char **board)
 {
 	int	y;
 	int	x;
@@ -73,10 +57,10 @@ int	solve_tetrimino(t_piece *tetriminos, int count, size_t size, char **map)
 		solve = 0;
 		while (x < size)
 		{
-			if (map[y][x] == '.' && solve == 0)
+			if (board[y][x] == '.' && solve == 0)
 			{
-				if (check_if_tetrimino_fit(tetriminos[i], size, y, x))
-					solve = place_tetrimino(tetriminos[i], map, y, x);
+				if (tetmin[i].ylen + y < size && tetmin[i].xlen + x < size)
+					solve = place_tetrimino(tetmin[i], board, y, x);
 				if (solve)
 				{
 					i++;

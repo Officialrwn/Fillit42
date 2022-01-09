@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:42:00 by leo               #+#    #+#             */
-/*   Updated: 2022/01/08 23:32:17 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/09 20:11:26 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,67 +14,68 @@
 
 size_t	get_min_board_size(int tet_count)
 {
-	int		num_hashes;
-	int		size;
+	int	num_hashes;
+	int	size;
 
 	size = 1;
 	if (tet_count < 4)
-		tet_count  = 4;
+		tet_count = 4;
 	num_hashes = tet_count * 4;
 	while (size * size < num_hashes)
 		size++;
 	return (size);
 }
 
-char	**map_generator(size_t size)
+char	**board_generator(size_t size)
 {
-	int		i;
-	char	**map;
+	size_t	i;
+	char	**board;
 
 	i = 0;
-	map = (char **)malloc(sizeof(char *) * size);
-	if (!map)
+	board = (char **)malloc(sizeof(char *) * size);
+	if (!board)
 		return (NULL);
 	while (i < size)
 	{
-		map[i] = (char *)malloc(sizeof(char) * (size + 1));
-		if (!map[i])
+		board[i] = (char *)malloc(sizeof(char) * (size + 1));
+		if (!board[i])
 		{
-			free_map(map, i);
+			free_board(board, i);
 			return (NULL);
 		}
 		else
 		{
-			ft_memset(map[i], '.', size);
-			map[i][size] = '\0';
+			ft_memset(board[i], '.', size);
+			board[i][size] = '\0';
 			i++;
 		}
 	}
-	return (map);
+	return (board);
 }
 
-char	**resize_map(int size)
+char	**resize_board(int size)
 {
+	size = 0;
 	return (NULL);
 }
 
-void	free_map(char **map, size_t size)
+void	free_board(char **board, size_t size)
 {
 	while (size--)
 	{
-		ft_strdel(&map[size]);
+		ft_strdel(&board[size]);
 	}
-	free(map);
-	map = NULL;
+	free(board);
+	board = NULL;
 }
 
-void	print_map(char **map, size_t size)
+void	print_board(char **board, size_t size)
 {
 	for (size_t i = 0; i < size; i++)
 	{
 		for (size_t j = 0; j < size; j++)
 		{
-			printf("%c ", map[i][j]);
+			printf("%c ", board[i][j]);
 		}
 		printf("\n");
 	}

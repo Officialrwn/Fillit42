@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 22:45:48 by leo               #+#    #+#             */
-/*   Updated: 2022/01/08 18:42:18 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/09 15:42:54 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	print_tetrimino_c_yx(t_piece *tetriminos, int count)
 			, tetriminos[i].content[j + 1]);
 			j += 2;
 		}
-		printf("litera: %c\n\n", tetriminos[i].litera);
+		printf("litera: %c\n", tetriminos[i].litera);
+		printf("ylen: %d xlen: %d\n\n", tetriminos[i].ylen, tetriminos[i].xlen);
 		i++;
 	}
 }
