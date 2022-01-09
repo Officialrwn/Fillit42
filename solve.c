@@ -6,81 +6,118 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 17:26:55 by leo               #+#    #+#             */
-/*   Updated: 2022/01/09 20:04:30 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/10 00:50:59 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fillit.h"
 
-//void	remove_tetrimino(t_piece )
-
-int	place_tetrimino(t_piece tetmin, char **board, int y, int x)
+int	validate_place(t_piece *tetmin, t_board *board, int y, int x)
 {
 	int		i;
 	int		count;
-	char	c;
+	int		ytemp;
+	int		xtemp;
 
 	i = 0;
 	count = 0;
-	c = tetmin.litera;
+	if (board->content[y][x] != '.')
+		return (0);
 	while (i < 6)
 	{
-		if (board[y + tetmin.content[i]][x + tetmin.content[i + 1]] == '.')
+		ytemp = y + tetmin->content[i];
+		xtemp = x + tetmin->content[i + 1];
+		if (ytemp < 0 || ytemp >= board->size || \
+			xtemp < 0 || xtemp >= board->size)
+			return (0);
+		if (board->content[ytemp][xtemp] == '.')
 			count++;
 		i += 2;
-	}
-	i = 0;
-	if (count == 3)
-	{
-		board[y][x] = c;
-		while (i < 6)
-		{
-			board[y + tetmin.content[i]][x + tetmin.content[i + 1]] = c;
-			i += 2;
-		}
 	}
 	return (count == 3);
 }
 
-int	solve_tetrimino(t_piece *tetmin, int count, int size, char **board)
+void	remove_tetrimino(t_piece *tetmin, t_board *board, int y, int x)
 {
-	int	y;
-	int	x;
 	int	i;
-	int	solve;
+
+	i = 0;
+	board->content[y][x] = '.';
+	while (i < 6)
+	{
+		board->content[y + tetmin->content[i]] \
+		[x + tetmin->content[i + 1]] = '.';
+		i += 2;
+	}
+}
+
+int	place_tetrimino(t_piece *tetmin, t_board *board, int y, int x)
+{
+	int		i;
+	int		valid_place;
+
+	i = 0;
+	valid_place = validate_place(tetmin, board, y, x);
+	if (valid_place)
+	{
+		board->content[y][x] = tetmin->litera;
+		while (i < 6)
+		{
+			board->content[y + tetmin->content[i]] \
+			[x + tetmin->content[i + 1]] = tetmin->litera;
+			i += 2;
+		}
+	}
+	return (valid_place);
+}
+
+int	try_to_solve(t_piece *tetmin, t_board *board, int count, int i)
+{
+	int	x;
+	int	y;
+	int	was_inserted;
 
 	y = 0;
-	i = 0;
-	while (y < size)
+	while (y < board->size)
 	{
 		x = 0;
-		solve = 0;
-		while (x < size)
+		while (x < board->size)
 		{
-			if (board[y][x] == '.' && solve == 0)
+			was_inserted = place_tetrimino(&tetmin[i], board, y, x);
+			if (was_inserted && i == count - 1)
+				return (1);
+			else if (was_inserted)
 			{
-				if (tetmin[i].ylen + y < size && tetmin[i].xlen + x < size)
-					solve = place_tetrimino(tetmin[i], board, y, x);
-				if (solve)
-				{
-					i++;
-					y = 0;
-					break ;
-				}
+				if (try_to_solve(tetmin, board, count, i + 1))
+					return (1);
 				else
-					x++;
+					remove_tetrimino(&tetmin[i], board, y, x);
 			}
-			else
-				x++;
+			x++;
 		}
-		if (solve == 0)
-			y++;
-		if (i == count)
-			return (1);
+		y++;
 	}
 	return (0);
 }
 
-/*
-**	Segfaults when giving 3 pieces that wont fit but wont segfault when 2
-*/
+int	solve(t_piece *tetmin, int count)
+{
+	int		board_size;
+	t_board	board;
+
+	board_size = get_min_board_size(count);
+	while (1)
+	{
+		if (!board_generator(&board, board_size))
+			return (0);
+		printf("Trying board size %d\n", board_size);
+		if (try_to_solve(tetmin, &board, count, 0))
+		{
+			print_board(&board, board_size);
+			free_board(&board, board_size);
+			return (1);
+		}
+		free_board(&board, board_size);
+		board_size++;
+	}
+}
