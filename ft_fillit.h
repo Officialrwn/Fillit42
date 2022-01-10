@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 22:47:59 by leo               #+#    #+#             */
-/*   Updated: 2022/01/09 22:55:51 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/10 10:31:57 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,9 @@
 # include <fcntl.h>
 # include <stdlib.h>
 
-# include <stdio.h>
-
 typedef struct s_piece
 {
 	int		*content;
-	int		ylen;
-	int		xlen;
 	char	litera;
 }				t_piece;
 
@@ -48,9 +44,5 @@ void	free_board(t_board *board, size_t size);
 void	print_board(t_board *board, size_t size);
 void	remove_tetrimino(t_piece *tetmin, t_board *board, int y, int x);
 size_t	get_min_board_size(int count);
-
-void	print_arr(int *temp);
-void	print_stored_tetrimino(int *numarr);
-void	print_tetrimino_c_yx(t_piece *tetmin, int count);
 
 #endif

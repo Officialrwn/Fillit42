@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/23 22:47:40 by marvin            #+#    #+#             */
-/*   Updated: 2022/01/09 22:13:57 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/10 10:32:04 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static void	set_content_to_null(t_piece *tetmin)
 	while (i < 26)
 	{
 		tetmin[i].content = NULL;
-		tetmin[i].xlen = 0;
-		tetmin[i].ylen = 0;
 		i++;
 	}
 	return ;
@@ -37,7 +35,7 @@ int	main(int argc, char **argv)
 	is_solved = 0;
 	if (argc != 2)
 	{
-		ft_putstr("usage: ./a.out source_file\n");
+		ft_putstr("usage: ./fillit source_file\n");
 		return (1);
 	}
 	fd = open(argv[1], O_RDONLY);

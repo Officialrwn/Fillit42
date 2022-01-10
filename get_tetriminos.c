@@ -112,10 +112,6 @@ void	store_tetrmino(char *temp, t_piece *tetmin)
 		{
 			tetmin->content[j] = (i - (i % 4)) / 4 - y;
 			tetmin->content[j + 1] = (i % 4) - x;
-			if (tetmin->ylen < tetmin->content[j])
-				tetmin->ylen = tetmin->content[j];
-			if (tetmin->xlen < tetmin->content[j + 1])
-				tetmin->xlen = tetmin->content[j + 1];
 			j += 2;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 17:26:55 by leo               #+#    #+#             */
-/*   Updated: 2022/01/10 00:50:59 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/10 01:41:38 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ int	solve(t_piece *tetmin, int count)
 	{
 		if (!board_generator(&board, board_size))
 			return (0);
-		printf("Trying board size %d\n", board_size);
 		if (try_to_solve(tetmin, &board, count, 0))
 		{
 			print_board(&board, board_size);
