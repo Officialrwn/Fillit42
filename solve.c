@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 17:26:55 by leo               #+#    #+#             */
-/*   Updated: 2022/01/11 17:12:44 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/11 19:39:17 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ int	try_to_solve(t_piece *tetmin, t_board *board, int count, int i)
 			{
 				if (try_to_solve(tetmin, board, count, i + 1))
 					return (1);
-				else
-					remove_tetrimino(&tetmin[i], board, y, x);
+				remove_tetrimino(&tetmin[i], board, y, x);
 			}
 			x++;
 		}
