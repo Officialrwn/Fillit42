@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putendl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: leotran <leotran@student.42.fr>            +#+  +:+       +#+        */
+/*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 15:13:31 by leotran           #+#    #+#             */
-/*   Updated: 2021/11/16 14:17:11 by leotran          ###   ########.fr       */
+/*   Updated: 2022/01/11 03:39:00 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ void	ft_putendl(char const *s)
 	else
 	{
 		ft_putstr(s);
-		ft_putchar('\n');	
+		ft_putchar('\n');
 	}
 }
