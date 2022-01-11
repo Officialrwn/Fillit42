@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:42:00 by leo               #+#    #+#             */
-/*   Updated: 2022/01/11 12:04:22 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/11 17:02:26 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 size_t	get_min_board_size(int count)
 {
-	int	num_hashes;
-	int	size;
+	size_t	num_hashes;
+	size_t	size;
 
 	size = 1;
-	num_hashes = count * 4;
+	num_hashes = (size_t)count * 4;
 	while (size * size < num_hashes)
 		size++;
 	return (size);
@@ -30,7 +30,7 @@ int	board_generator(t_board *board, size_t size)
 
 	i = 0;
 	board->content = (char **)malloc(sizeof(char *) * size);
-	board->size = size;
+	board->size = (int)size;
 	if (!board->content)
 		return (0);
 	while (i < size)
@@ -41,12 +41,9 @@ int	board_generator(t_board *board, size_t size)
 			free_board(board, i);
 			return (0);
 		}
-		else
-		{
-			ft_memset(board->content[i], '.', size);
-			board->content[i][size] = '\0';
-			i++;
-		}
+		ft_memset(board->content[i], '.', size);
+		board->content[i][size] = '\0';
+		i++;
 	}
 	return (1);
 }

@@ -45,7 +45,7 @@ int	check_tetrimino_format(int fd, char *temp)
 	char	buffer[22];
 	int		i;
 	int		j;
-	int		read_ret;
+	ssize_t	read_ret;
 
 	i = 0;
 	j = 0;
@@ -61,7 +61,7 @@ int	check_tetrimino_format(int fd, char *temp)
 		else
 			i++;
 	}
-	if (read_ret == 0 || (read_ret >= 20 && j != 16))
+	if (read_ret <= 0 || (read_ret >= 20 && j != 16))
 		return (-1);
 	return (read_ret == 21);
 }

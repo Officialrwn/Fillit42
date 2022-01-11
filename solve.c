@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 17:26:55 by leo               #+#    #+#             */
-/*   Updated: 2022/01/11 15:32:03 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/11 16:54:52 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	solve(t_piece *tetmin, int count)
 {
-	int		board_size;
+	size_t	board_size;
 	t_board	board;
 
 	board_size = get_min_board_size(count);
