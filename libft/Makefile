@@ -20,7 +20,6 @@ all: $(NAME)
 $(NAME):
 	gcc $(FLAGS) -c $(SRCS)
 	ar rc $(NAME) $(O_FILES)
-#$(O_FILES)
 
 clean:
 	/bin/rm -f $(O_FILES)
