@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 17:26:55 by leo               #+#    #+#             */
-/*   Updated: 2022/01/11 16:54:52 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/11 17:12:44 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	validate_place(t_piece *tetmin, t_board *board, int y, int x)
 		if (ytemp < 0 || ytemp >= board->size || xtemp < 0 \
 		|| xtemp >= board->size)
 			return (0);
-		if(board->content[ytemp][xtemp] != '.')
+		if (board->content[ytemp][xtemp] != '.')
 			return (0);
 		i += 2;
 	}

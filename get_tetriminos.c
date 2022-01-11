@@ -31,7 +31,7 @@ int	read_tetrimino(int fd, t_piece *tetmin, char c)
 			if (!tetmin[count].content)
 				return (-1);
 			store_tetrmino(temp, &tetmin[count]);
-			tetmin[count].litera = c + count;
+			tetmin[count].litera = c++;
 			count++;
 		}
 		if (i == -1 || j == 0)
