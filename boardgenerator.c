@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:42:00 by leo               #+#    #+#             */
-/*   Updated: 2022/01/10 00:12:40 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/11 12:04:22 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ size_t	get_min_board_size(int count)
 	int	size;
 
 	size = 1;
-	if (count < 4)
-		count = 4;
 	num_hashes = count * 4;
 	while (size * size < num_hashes)
 		size++;

@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 17:26:55 by leo               #+#    #+#             */
-/*   Updated: 2022/01/11 04:49:08 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/11 15:32:03 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	try_to_solve(t_piece *tetmin, t_board *board, int count, int i)
 {
 	int	x;
 	int	y;
-	int	was_inserted;
+	int	valid_place;
 
 	y = 0;
 	while (y < board->size)
@@ -45,10 +45,10 @@ int	try_to_solve(t_piece *tetmin, t_board *board, int count, int i)
 		x = 0;
 		while (x < board->size)
 		{
-			was_inserted = place_tetrimino(&tetmin[i], board, y, x);
-			if (was_inserted && i == count - 1)
+			valid_place = validate_place(&tetmin[i], board, y, x);
+			if (valid_place && i == count - 1)
 				return (1);
-			else if (was_inserted)
+			else if (valid_place)
 			{
 				if (try_to_solve(tetmin, board, count, i + 1))
 					return (1);
@@ -62,49 +62,42 @@ int	try_to_solve(t_piece *tetmin, t_board *board, int count, int i)
 	return (0);
 }
 
-int	place_tetrimino(t_piece *tetmin, t_board *board, int y, int x)
-{
-	int		i;
-	int		valid_place;
-
-	i = 0;
-	valid_place = validate_place(tetmin, board, y, x);
-	if (valid_place)
-	{
-		board->content[y][x] = tetmin->litera;
-		while (i < 6)
-		{
-			board->content[y + tetmin->content[i]] \
-			[x + tetmin->content[i + 1]] = tetmin->litera;
-			i += 2;
-		}
-	}
-	return (valid_place);
-}
-
 int	validate_place(t_piece *tetmin, t_board *board, int y, int x)
 {
 	int		i;
-	int		count;
 	int		ytemp;
 	int		xtemp;
 
 	i = 0;
-	count = 0;
 	if (board->content[y][x] != '.')
 		return (0);
 	while (i < 6)
 	{
 		ytemp = y + tetmin->content[i];
 		xtemp = x + tetmin->content[i + 1];
-		if (ytemp < 0 || ytemp >= board->size || \
-			xtemp < 0 || xtemp >= board->size)
+		if (ytemp < 0 || ytemp >= board->size || xtemp < 0 \
+		|| xtemp >= board->size)
 			return (0);
-		if (board->content[ytemp][xtemp] == '.')
-			count++;
+		if(board->content[ytemp][xtemp] != '.')
+			return (0);
 		i += 2;
 	}
-	return (count == 3);
+	return (place_tetrimino(tetmin, board, y, x));
+}
+
+int	place_tetrimino(t_piece *tetmin, t_board *board, int y, int x)
+{
+	int		i;
+
+	i = 0;
+	board->content[y][x] = tetmin->litera;
+	while (i < 6)
+	{
+		board->content[y + tetmin->content[i]] \
+		[x + tetmin->content[i + 1]] = tetmin->litera;
+		i += 2;
+	}
+	return (1);
 }
 
 void	remove_tetrimino(t_piece *tetmin, t_board *board, int y, int x)
