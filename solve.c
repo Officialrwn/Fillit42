@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 17:26:55 by leo               #+#    #+#             */
-/*   Updated: 2022/01/11 19:39:17 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/12 08:14:54 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,9 @@ int	validate_place(t_piece *tetmin, t_board *board, int y, int x)
 	{
 		ytemp = y + tetmin->content[i];
 		xtemp = x + tetmin->content[i + 1];
-		if (ytemp < 0 || ytemp >= board->size || xtemp < 0 \
-		|| xtemp >= board->size)
-			return (0);
-		if (board->content[ytemp][xtemp] != '.')
+		if (ytemp < 0 || ytemp >= board->size \
+			|| xtemp < 0 || xtemp >= board->size \
+			|| board->content[ytemp][xtemp] != '.')
 			return (0);
 		i += 2;
 	}
@@ -86,14 +85,17 @@ int	validate_place(t_piece *tetmin, t_board *board, int y, int x)
 
 int	place_tetrimino(t_piece *tetmin, t_board *board, int y, int x)
 {
-	int		i;
+	int	i;
+	int	ytemp;
+	int	xtemp;
 
 	i = 0;
 	board->content[y][x] = tetmin->litera;
 	while (i < 6)
 	{
-		board->content[y + tetmin->content[i]] \
-		[x + tetmin->content[i + 1]] = tetmin->litera;
+		ytemp = y + tetmin->content[i];
+		xtemp = x + tetmin->content[i + 1];
+		board->content[ytemp][xtemp] = tetmin->litera;
 		i += 2;
 	}
 	return (1);
@@ -102,13 +104,16 @@ int	place_tetrimino(t_piece *tetmin, t_board *board, int y, int x)
 void	remove_tetrimino(t_piece *tetmin, t_board *board, int y, int x)
 {
 	int	i;
+	int	ytemp;
+	int	xtemp;
 
 	i = 0;
 	board->content[y][x] = '.';
 	while (i < 6)
 	{
-		board->content[y + tetmin->content[i]] \
-		[x + tetmin->content[i + 1]] = '.';
+		ytemp = y + tetmin->content[i];
+		xtemp = x + tetmin->content[i + 1];
+		board->content[ytemp][xtemp] = '.';
 		i += 2;
 	}
 }

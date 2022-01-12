@@ -25,7 +25,7 @@ int	read_tetrimino(int fd, t_piece *tetmin, char c)
 	{
 		i = check_tetrimino_format(fd, temp);
 		j = validate_tetrimino(temp);
-		if (i >= 0 && j > 0)
+		if (i >= 0 && j > 0 && count < 26)
 		{
 			tetmin[count].content = (int *)malloc(sizeof(int) * 6);
 			if (!tetmin[count].content)
@@ -34,7 +34,7 @@ int	read_tetrimino(int fd, t_piece *tetmin, char c)
 			tetmin[count].litera = c++;
 			count++;
 		}
-		if (i == -1 || j == 0)
+		if (i == -1 || j == 0 || count == 26)
 			return (0);
 	}
 	return (count);
