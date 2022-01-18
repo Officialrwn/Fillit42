@@ -6,7 +6,7 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:42:00 by leo               #+#    #+#             */
-/*   Updated: 2022/01/11 17:02:26 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/15 18:41:13 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ void	print_board(t_board *board, size_t size)
 		ft_putendl(board->content[i]);
 		i++;
 	}
+	ft_putchar('\n');
 }

@@ -6,11 +6,43 @@
 /*   By: leo <leo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 17:26:55 by leo               #+#    #+#             */
-/*   Updated: 2022/01/12 08:14:54 by leo              ###   ########.fr       */
+/*   Updated: 2022/01/15 18:55:30 by leo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fillit.h"
+
+int validy(t_piece *tetmin, t_board *board, int y)
+{
+	int		i;
+	int		ytemp;
+
+	i = 0;
+	while (i < 6)
+	{
+		ytemp = y + tetmin->content[i];
+		if (ytemp >= board->size)
+			return (0);
+		i += 2;
+	}
+	return (1);
+}
+
+int validx(t_piece *tetmin, t_board *board, int x)
+{
+	int		i;
+	int		xtemp;
+
+	i = 0;
+	while (i < 6)
+	{
+		xtemp = x + tetmin->content[i];
+		if (xtemp >= board->size)
+			return (0);
+		i += 2;
+	}
+	return (1);
+}
 
 int	solve(t_piece *tetmin, int count)
 {
@@ -40,7 +72,7 @@ int	try_to_solve(t_piece *tetmin, t_board *board, int count, int i)
 	int	valid_place;
 
 	y = 0;
-	while (y < board->size)
+	while (validy(&tetmin[i], board, y) && y < board->size)
 	{
 		x = 0;
 		while (x < board->size)
@@ -74,8 +106,7 @@ int	validate_place(t_piece *tetmin, t_board *board, int y, int x)
 	{
 		ytemp = y + tetmin->content[i];
 		xtemp = x + tetmin->content[i + 1];
-		if (ytemp < 0 || ytemp >= board->size \
-			|| xtemp < 0 || xtemp >= board->size \
+		if (xtemp < 0 || xtemp >= board->size \
 			|| board->content[ytemp][xtemp] != '.')
 			return (0);
 		i += 2;
@@ -98,6 +129,7 @@ int	place_tetrimino(t_piece *tetmin, t_board *board, int y, int x)
 		board->content[ytemp][xtemp] = tetmin->litera;
 		i += 2;
 	}
+	//print_board(board, board->size);
 	return (1);
 }
 
